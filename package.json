@@ -1,0 +1,24 @@
+{
+  "name": "financial-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViniciusBerkembrock/financial-management.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ViniciusBerkembrock/financial-management/issues"
+  },
+  "homepage": "https://github.com/ViniciusBerkembrock/financial-management#readme",
+  "dependencies": {
+    "next": "^13.1.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
