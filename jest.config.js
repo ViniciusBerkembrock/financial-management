@@ -9,6 +9,7 @@ const createJestConfig = nextJest({
 });
 const jestConfig = createJestConfig({
   moduleDirectories: ["node_modules", "<rootDir>/"],
+  testTimeout: 60000,
 });
 
 module.exports = jestConfig;
@@ -19,4 +20,6 @@ a configuração irá buscar o .env
 
 Em contra partida, o projeto utiliza o .env.development para definir 
 as variáveis de ambiente, para resolver isso é necessário definir o path
-do .env.development através do dotenv.config({ path: ".env.development" });**/
+do .env.development através do dotenv.config({ path: ".env.development" });
+
+Adiciona um timeout de 60 segundos para que o beforeAll() consiga subir o banco docker e as dependências**/
