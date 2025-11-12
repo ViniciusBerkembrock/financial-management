@@ -1,6 +1,6 @@
 name: Automated Tests2
 
-on: pull request
+on: "pull request"
 
 jobs:
   jest:
