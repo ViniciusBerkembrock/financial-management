@@ -1,6 +1,6 @@
-name: Automated Tests2
+name: Automated Tests3
 
-on: "pull request"
+on: [pull request]
 
 jobs:
   jest:
