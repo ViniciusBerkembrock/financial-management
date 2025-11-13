@@ -6,6 +6,25 @@ jobs:
   jest:
     name: Jest Ubuntu
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16.0-alpine3.18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: financial_management_test
+          POSTGRES_PORT: 1998
+        ports:
+          - 1998:1998
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        # Configurar PostgreSQL para rodar na porta customizada 1998
+        command: postgres -p 1998
+
     steps:
       - uses: actions/checkout@v4
 
@@ -13,6 +32,35 @@ jobs:
         with:
           node-version: "18"
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm test
+      - name: Create .env.development
+        run: |
+          cat << EOF > .env.development
+          POSTGRES_HOST=localhost
+          POSTGRES_PORT=1998
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD=postgres
+          POSTGRES_DB=financial_management_test
+          NODE_ENV=test
+          EOF
+
+      - name: Run migrations
+        run: npm run migration:up
+
+      - name: Start Next.js server in background
+        run: |
+          npx next dev &
+          echo "Aguardando o servidor iniciar..."
+          for i in {1..30}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Servidor está pronto!"
+              break
+            fi
+            echo "Tentativa $i/30..."
+            sleep 2
+          done
+
+      - name: Run tests
+        run: npm test
