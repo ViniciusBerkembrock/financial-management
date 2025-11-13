@@ -22,7 +22,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        # Configurar PostgreSQL para rodar na porta customizada 1998
         command: postgres -p 1998
 
     steps:
