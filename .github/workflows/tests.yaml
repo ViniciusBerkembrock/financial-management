@@ -17,7 +17,7 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      # Sobe banco (Docker), espera Postgres, roda migrations e sobe o Next
+      # Sobe banco (Docker), espera Postgres, roda migrations e sobe o Nextss
       - name: Subir ambiente de dev (API + Postgres)
         run: npm run dev &
         env:
