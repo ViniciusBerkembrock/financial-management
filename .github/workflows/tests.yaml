@@ -6,13 +6,37 @@ jobs:
   jest:
     name: Jest Ubuntu
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "lts"
 
-      - run: npm ci
+      - name: Instalar dependências
+        run: npm ci
 
-      - run: npm test
+      # Sobe banco (Docker), espera Postgres, roda migrations e sobe o Next
+      - name: Subir ambiente de dev (API + Postgres)
+        run: npm run dev &
+        env:
+          NODE_ENV: test
+
+      # Esperar a API responder antes de rodar os testes
+      - name: Aguardar API subir
+        run: |
+          for i in {1..30}; do
+            echo "Verificando API (tentativa $i)..."
+            if curl -sSf http://localhost:3000/api/v1/status > /dev/null; then
+              echo "API está no ar!"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "API não subiu a tempo."
+          exit 1
+
+      - name: Rodar testes
+        run: npm test
