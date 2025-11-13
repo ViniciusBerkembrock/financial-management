@@ -1,11 +1,33 @@
 name: Automated Tests
 
-on: pull_request
-
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - actions
+      
 jobs:
   jest:
     name: Jest Ubuntu
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16.0-alpine3.18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: financial_management_test
+          POSTGRES_PORT: 1998
+        ports:
+          - 1998:1998
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        command: postgres -p 1998
 
     steps:
       - uses: actions/checkout@v4
