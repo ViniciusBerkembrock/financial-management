@@ -14,5 +14,3 @@ test("GET /api/v1/migrations", async () => {
   expect(Array.isArray(responseBody)).toBe(true);
   expect(responseBody.length).toBeGreaterThan(0);
 });
-
-// teste3;
