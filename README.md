@@ -1,11 +1,10 @@
-*Comandos inicialização:*
+_Comandos inicialização:_
 
 npm run dev
 npm run test:watch
 docker compose -f infra/compose.yaml up -d
 
-
-*Infraestrutura:*
+_Infraestrutura:_
 
 Foi criada uma imagem do postgres para o docker
 Isso foi feito configurando o compose.yaml (novo padrão de nomemclatura)
