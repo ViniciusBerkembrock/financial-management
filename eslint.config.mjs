@@ -10,5 +10,9 @@ export default defineConfig([
     extends: ["js/recommended"],
     languageOptions: { globals: globals.browser },
   },
+  {
+    files: ["infra/**/*.js", "pages/api/**/*.js"],
+    languageOptions: { globals: globals.node },
+  },
   pluginReact.configs.flat.recommended,
 ]);
