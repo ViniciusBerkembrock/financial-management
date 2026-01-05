@@ -31,7 +31,7 @@ jobs:
 
       - run: npm run lint:eslint:check
 
-    eslint:
+  commitlint:
     name: commitlint
     runs-on: ubuntu-latest
     steps:
