@@ -25,21 +25,6 @@ async function waitForAllServices() {
       }
     }
   }
-
-  async function waitForEmailServer() {
-    return retry(fetchEmailPage, {
-      retries: 100,
-      maxTimeout: 1000,
-    });
-
-    async function fetchEmailPage() {
-      const response = await fetch(emailHttpUrl);
-
-      if (response.status !== 200) {
-        throw Error();
-      }
-    }
-  }
 }
 
 async function clearDatabase() {
