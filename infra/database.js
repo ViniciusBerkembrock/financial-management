@@ -9,10 +9,12 @@ async function query(queryObject) {
     return result;
   } catch (error) {
     console.error(error);
+    throw error;
   } finally {
-    await client.end();
+    await client?.end();
   }
 }
+
 async function getNewClient() {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
