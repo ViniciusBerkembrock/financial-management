@@ -1,4 +1,5 @@
 import { Client } from "pg";
+import { ServiceError } from "./errors";
 
 async function query(queryObject) {
   let client;
@@ -8,11 +9,16 @@ async function query(queryObject) {
     const result = await client.query(queryObject);
     return result;
   } catch (error) {
-    console.error(error);
+    const serviceErrorObject = new ServiceError({
+      message: "Erro ao executar query no banco de dados",
+      cause: error,
+    });
+    throw serviceErrorObject;
   } finally {
-    await client.end();
+    await client?.end();
   }
 }
+
 async function getNewClient() {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
