@@ -1,6 +1,7 @@
 import migrationRunner from "node-pg-migrate";
 import { resolve } from "node:path";
 import database from "infra/database";
+import { ServiceError } from "infra/errors";
 
 const defaultMigrationOptions = {
   dir: resolve("infra", "migrations"),
@@ -20,6 +21,12 @@ async function listPendingMigrations() {
     });
 
     return pendingMigrations;
+  } catch (error) {
+    const serviceErrorObject = new ServiceError({
+      cause: error,
+      message: "Erro ao listar migrações pendentes",
+    });
+    throw serviceErrorObject;
   } finally {
     await dbClient?.end();
   }
